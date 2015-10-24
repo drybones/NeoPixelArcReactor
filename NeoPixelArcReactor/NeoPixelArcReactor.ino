@@ -56,8 +56,8 @@ void loop() {
       hue = 0.7;
       oscillate(0, 1, 40, 255, 0.2, 0.0);
       oscillate(1, 6, 10, 128, 0.2, 0.0);
-      spin( 7, 16, 3, 1.0, 64, 255, 1);
-      spin(23, 24, 3, 1.0, 64, 255, 0);
+      spin( 7, 16, 3, 1.0, 64, 255, 1, 0.0); // Adjust the phase to get the desired rotational offset
+      spin(23, 24, 3, 1.0, 64, 255, 0, 0.0);
       break;
     case 2:
       hue = 0.7;
@@ -86,14 +86,14 @@ void oscillate(int startPixel, int pixelLength, int minAlpha, int maxAlpha, floa
   setPixelRange(startPixel, pixelLength, getColor(hue, alpha));
 }
 
-void spin(int startPixel, int pixelLength, int numPeaks, float freq, int minAlpha, int maxAlpha, int dir) {
+void spin(int startPixel, int pixelLength, int numPeaks, float freq, int minAlpha, int maxAlpha, int dir, float phase) {
   unsigned long time = millis();
   int alpha;
   int pos;
   
   for(int i=0; i<pixelLength; i++)
   {
-    alpha = (maxAlpha-minAlpha)*0.5*(1.0+sin(TAU*(numPeaks*(1.0*i/pixelLength)+(time/1000.0)*freq)))+minAlpha;
+    alpha = (maxAlpha-minAlpha)*0.5*(1.0+sin(TAU*(numPeaks*(1.0*i/pixelLength)+(time/1000.0)*freq)+phase))+minAlpha;
     if(dir == 0)
     {
       pos = startPixel+i;
