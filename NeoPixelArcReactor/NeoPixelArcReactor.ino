@@ -19,7 +19,7 @@ int mode = 0;
 unsigned long lastModeSwitch = millis();
 float hue = 0.33;
 
-const uint8_t PROGMEM gamma[] = {
+const uint8_t PROGMEM gammaLookup[] = {
     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  1,  1,
     1,  1,  1,  1,  1,  1,  1,  1,  1,  2,  2,  2,  2,  2,  2,  2,
@@ -140,7 +140,7 @@ void setPixelRange(int startPixel, int pixelLength, uint32_t c) {
 
 uint32_t getColor(float hue, int alpha) {
   uint8_t w = 255*hue;
-  float brightness = pgm_read_byte(&gamma[alpha]) / 255.0;
+  float brightness = pgm_read_byte(&gammaLookup[alpha]) / 255.0;
   if(w < 85) {
     return Adafruit_NeoPixel::Color(w*3*brightness, (255-w*3)*brightness, 0);
   } else if(w < 170) {
